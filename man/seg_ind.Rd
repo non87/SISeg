@@ -52,8 +52,51 @@ returns the value of the desired index for the environment as a
 
 At this point, all indices suppose that there are only two groups in the
 environment. This will change later.
+}
+\section{Functions}{
+\itemize{
+\item \code{d_ind}: D Index
 
-For the index formulations, properties and formulas, see discussion in (sources
+\item \code{gini_ind}: Gini index. It shoud be noticed that the Gini index requires more complex
+calculations with respect to the other indices in the SISeg package. For this
+reason, it takes more time to compute and the difference may be noticeable
+in the construction of confidence intervals.
+
+\item \code{mutual_info_ind}: Mutual Information Index. It uses the exponential as a
+base for logarithms.
+
+\item \code{theil_ind}: Theil Index (One of the possible normalization of the
+Mutual Information Index). It uses the exponential as a
+base for logarithms.
+
+\item \code{atkinson_ind}: Atkinson Index as defined by Frankel and Volij (2011).
+The weights are assumed to be uniform over the units.
+
+\item \code{v_ind}: V Index, also known as Eta-squared index.
+
+\item \code{isolation_ind}: Isolation Index. Notice, this is asymmetric.
+
+\item \code{isolationInv_ind}: A convenience function to calculate the Isolation Index for
+the second group in an environment.
+
+\item \code{isolationInv_ind_bin}: A convenience function to calculate the Isolation Index for
+the second group in an environment.
+}}
+
+\examples{
+env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+d_ind(env)
+gini_ind(env)
+mutual_info_ind(env)
+theil_ind(env)
+atkinson_ind(env)
+v_ind(env)
+isolation_ind(env)
+isolationInv_ind(env[c(2,1)])
+isolation_ind(env) == isolationInv_ind(env[c(2,1),])
+}
+\references{
+For the index formulas and properties, see discussion in (sources
 are in order of relevance)
 
 \describe{
@@ -87,46 +130,6 @@ Massey, Douglas S., and Nancy A. Denton. 1988. ``The Dimensions of
 Residential Segregation.'' Social Forces 67 (2): 281–315.
 }
 }
-}
-\section{Functions}{
-\itemize{
-\item \code{d_ind}: D Index
-
-\item \code{gini_ind}: Gini index. It shoud be noticed that the Gini index requires more complex
-calculations with respect to the other indices in the SISeg package. For this
-reason, it takes more time to compute and the difference may be noticeable
-in the construction of confidence intervals.
-
-\item \code{mutual_info_ind}: Mutual Information Index
-
-\item \code{theil_ind}: Theil Index (One of the possible normalization of the
-Mutual Information Index)
-
-\item \code{atkinson_ind}: Atkinson Index as defined by Frankel and Volij (2011).
-The weights are assumed to be uniform over the units.
-
-\item \code{v_ind}: V Index, also known as Eta-squared index.
-
-\item \code{isolation_ind}: Isolation Index. Notice, this is asymmetric.
-
-\item \code{isolationInv_ind}: A convenience function to calculate the Isolation Index for
-the second group in an environment.
-
-\item \code{isolationInv_ind_bin}: A convenience function to calculate the Isolation Index for
-the second group in an environment.
-}}
-
-\examples{
-env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
-d_ind(env)
-gini_ind(env)
-mutual_info_ind(env)
-theil_ind(env)
-atkinson_ind(env)
-v_ind(env)
-isolation_ind(env)
-isolationInv_ind(env[c(2,1)])
-isolation_ind(env) == isolationInv_ind(env[c(2,1),])
 }
 \seealso{
 Other indices: 
