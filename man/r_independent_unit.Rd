@@ -30,7 +30,6 @@ distributions or, following a simple Bayesian  conjugate model, k beta-
 binomial distributions -- where k is the number of units in an environment.
 Returns the sample in the form of a 2xk matrix. At least, one
 among ps and both alfas and betas must be specified.
-The length of alfas and betas must be identical.
 }
 \details{
 Simulate a sample from k independent distributions, one per unit. The
@@ -39,11 +38,10 @@ beta-binomial. The kth binomial distributions will take as
 probability vectors the kth element of ps. The kth beta-bininomial
 distributions will take as alfa (beta) the kth element in alfas (betas) if
 alfas is a \code{vector}. Otherwise all beta-binomial distributions will
-have alfas (betas) as the alfa (betas) parameter, when alfas (betas) is
+have alfas (betas) as the alfa (beta) parameter, when alfas (betas) is
 \code{numeric}.
 In case ps is specified, alfas and betas will be ignored and
-the units' composition will be sampled from binomial
-distributions.
+the units' composition will be sampled from binomial distributions.
 
 At least, one among ps and both alphas and betas must be specified.
 The length of ns and ps (or alphas and betas) must be identical.
