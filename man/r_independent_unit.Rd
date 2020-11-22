@@ -47,7 +47,7 @@ At least, one among ps and both alphas and betas must be specified.
 The length of ns and ps (or alphas and betas) must be identical.
 }
 \examples{
-env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 ns <- colSums(env)
 ps <- env[1,]/ns
 samp <- r_independent_unit(ns = ns, ps = ps)

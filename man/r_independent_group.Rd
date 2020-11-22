@@ -7,7 +7,9 @@
 r_independent_group(n_1, n_2, p_1 = F, p_2 = F, dir_1 = F, dir_2 = F)
 }
 \arguments{
-\item{n_1}{\code{numeric} representing the number of individuals from group 2.}
+\item{n_1}{\code{numeric} representing the number of individuals from group 1.}
+
+\item{n_2}{\code{numeric} representing the number of individuals from group 2.}
 
 \item{p_1}{\code{vector} of probability for group 1.}
 
@@ -43,7 +45,7 @@ At least, one among p_1 and dir_1 and one among p_2 and dir_2 must be
 specified. The length of p_1 (dir_1) and p_2 (dir_2) must be identical.
 }
 \examples{
-env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 n_1 <- sum(env[1,])
 n_2 <- sum(env[2,])
 p_1 <- env[1,]

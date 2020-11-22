@@ -34,7 +34,7 @@ distribution. p does not have to be normalized.
 At least, one among p and dir_alpha must be specified.
 }
 \examples{
-env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 n <- sum(env)
 p <- c(t(env))
 samp <- r_full_multinomial(n = n, p = p)

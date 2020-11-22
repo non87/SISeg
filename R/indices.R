@@ -22,7 +22,8 @@
 #' At this point, all indices suppose that there are only two groups in the
 #' environment. This will change later.
 #'
-#' For the index formulations, properties and formulas, see discussion in (sources
+#' @references
+#' For the index formulas and properties, see discussion in (sources
 #'  are in order of relevance)
 #'
 #' \describe{
@@ -59,12 +60,12 @@
 #'
 #' @name seg_ind
 #'
-#' @param mat 2xN matrix of numeric.
+#' @param env 2xN matrix of numeric.
 #'
 #' @return \code{numeric} representing the index value for the data.
 #' @family indices
 #' @examples
-#' env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+#' env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 #' d_ind(env)
 #' gini_ind(env)
 #' mutual_info_ind(env)
@@ -72,8 +73,8 @@
 #' atkinson_ind(env)
 #' v_ind(env)
 #' isolation_ind(env)
-#' isolationInv_ind(env[c(2,1)])
-#' isolation_ind(env) == isolationInv_ind(env[c(2,1),])
+#' isolationInv_ind(env)
+#' isolation_ind(env[c(2,1),]) == isolationInv_ind(env)
 NULL
 
 #' @describeIn seg_ind D Index
@@ -108,7 +109,8 @@ entropy <- function(v){
   return(ent)
 }
 
-#' @describeIn seg_ind Mutual Information Index
+#' @describeIn seg_ind Mutual Information Index. It uses the exponential as a
+#'     base for logarithms.
 #' @export
 mutual_info_ind <- function(env){
   p <-rowSums(env)/sum(env)
@@ -119,7 +121,8 @@ mutual_info_ind <- function(env){
 }
 
 #' @describeIn seg_ind Theil Index (One of the possible normalization of the
-#'     Mutual Information Index)
+#'     Mutual Information Index). It uses the exponential as a
+#'     base for logarithms.
 #' @export
 theil_ind <- function(env){
   p <-rowSums(env)/sum(env)
@@ -151,9 +154,9 @@ v_ind <- function(env){
 #' @describeIn seg_ind Isolation Index. Notice, this is asymmetric.
 #' @export
 isolation_ind <- function(env){
-  env <- m/sum(env)
+  env <- env/sum(env)
   p <- rowSums(env)[1]
-  m1 <- m/rowSums(env)
+  m1 <- env/rowSums(env)
   return(p*sum(m1[1,]^2/colSums(env)))
 }
 
@@ -214,11 +217,11 @@ isolationInv_ind <- function(env){
 #'     is identical to the basic segregation indices functions.
 #' @family indices
 #' @examples
-#' env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+#' env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 #' basic <- d_ind(env)
 #' bin <-  d_ind_bin(env)
 #' all.equal(basic, bin)
-#' env_bin_form <- colSums(env)
+#' env_bin_form <- env
 #' env_bin_form[2,] <- colSums(env_bin_form)
 #' env_bin_form[1,] <- env_bin_form[1,]/env_bin_form[2,]
 #' env_bin_form[2,] <- env_bin_form[2,]/sum(env_bin_form[2,])
@@ -231,36 +234,36 @@ NULL
 
 #' @describeIn seg_ind_bin D Index
 #' @export
-d_ind_bin <- function(mat, in_form = FALSE){
+d_ind_bin <- function(env, in_form = FALSE){
   if (!(in_form)){
-    mat[2,] <- colSums(mat)
-    mat[1,] <- mat[1,]/mat[2,]
-    mat[2,] <- mat[2,]/sum(mat[2,])
+    env[2,] <- colSums(env)
+    env[1,] <- env[1,]/env[2,]
+    env[2,] <- env[2,]/sum(env[2,])
   }
   #Calculate the row margin
-  p_f <- sum(unlist(lapply(seq(ncol(mat)), function(x) prod(mat[,x]))))
+  p_f <- sum(unlist(lapply(seq(ncol(env)), function(x) prod(env[,x]))))
   #Calculate the normalizing factor
-  p_f <- c(mat[1,]%*% mat[2,])
+  p_f <- c(env[1,]%*% env[2,])
   norm <- (2*p_f*(1-p_f))^(-1)
   #Proceed to sum
-  su <- sum(mat[2,]*abs(p_f - mat[1,]))
+  su <- sum(env[2,]*abs(p_f - env[1,]))
   return(su*norm)
 }
 
 #' @describeIn seg_ind_bin Gini Index. As for its basic version, the Gini Index
 #'     is quite cumbersome to calculate.
 #' @export
-gini_ind_bin <- function(mat, in_form = FALSE){
+gini_ind_bin <- function(env, in_form = FALSE){
   if (!(in_form)){
-    mat[2,] <- colSums(mat)
-    mat[1,] <- mat[1,]/mat[2,]
-    mat[2,] <- mat[2,]/sum(mat[2,])
+    env[2,] <- colSums(env)
+    env[1,] <- env[1,]/env[2,]
+    env[2,] <- env[2,]/sum(env[2,])
   }
-  p <- c(mat[1,]%*% mat[2,])
+  p <- c(env[1,]%*% env[2,])
   norm <- 1/2*(1/(p*(1-p)))
-  abs_matrix <- t(t(rep(1, ncol(mat)))) %*% t(mat[1,])
+  abs_matrix <- t(t(rep(1, ncol(env)))) %*% t(env[1,])
   abs_matrix <- abs(abs_matrix - t(abs_matrix))
-  c(norm * t(mat[2,]) %*% abs_matrix %*% t(t(mat[2,])))
+  c(norm * t(env[2,]) %*% abs_matrix %*% t(t(env[2,])))
 }
 
 #Mutual information in binomial version
@@ -268,14 +271,14 @@ gini_ind_bin <- function(mat, in_form = FALSE){
 
 #' @describeIn seg_ind_bin Mutual Information Index.
 #' @export
-mutual_info_ind_bin <- function(mat, in_form = FALSE ){
+mutual_info_ind_bin <- function(env, in_form = FALSE ){
   if (!(in_form)){
-    mat[2,] <- colSums(mat)
-    mat[1,] <- mat[1,]/mat[2,]
-    mat[2,] <- mat[2,]/sum(mat[2,])
+    env[2,] <- colSums(env)
+    env[1,] <- env[1,]/env[2,]
+    env[2,] <- env[2,]/sum(env[2,])
   }
-  p <- (mat[1,] %*% mat[2,])[1]
-  ents <- unlist(lapply(1:ncol(mat), function(x) mat[2,x]*entropy(c(mat[1,x], 1-mat[1,x]))))
+  p <- (env[1,] %*% env[2,])[1]
+  ents <- unlist(lapply(1:ncol(env), function(x) env[2,x]*entropy(c(env[1,x], 1-env[1,x]))))
   base_ent <- entropy(c(p, 1-p))
   return(base_ent-sum(ents))
 }
@@ -283,70 +286,70 @@ mutual_info_ind_bin <- function(mat, in_form = FALSE ){
 #' @describeIn seg_ind_bin Theil index. (One of the possible normalization of the
 #'     Mutual Information Index)
 #' @export
-theil_ind_bin <- function(mat, in_form = FALSE ){
+theil_ind_bin <- function(env, in_form = FALSE ){
   if (!(in_form)){
-    mat[2,] <- colSums(mat)
-    mat[1,] <- mat[1,]/mat[2,]
-    mat[2,] <- mat[2,]/sum(mat[2,])
+    env[2,] <- colSums(env)
+    env[1,] <- env[1,]/env[2,]
+    env[2,] <- env[2,]/sum(env[2,])
   }
-  p <- (mat[1,] %*% mat[2,])[1]
+  p <- (env[1,] %*% env[2,])[1]
   ent <- entropy(c(p, 1-p))
-  return(1/ent * mutual_info_ind_bin(mat, in_form = TRUE))
+  return(1/ent * mutual_info_ind_bin(env, in_form = TRUE))
 }
 
 
 #' @describeIn seg_ind_bin Atkinson Index as defined by Frankel and Volij (2011).
 #'     The weights are assumed to be uniform over the units.
 #' @export
-atkinson_ind_bin <- function(mat, in_form = FALSE){
+atkinson_ind_bin <- function(env, in_form = FALSE){
   if (!(in_form)){
-    mat[2,] <- colSums(mat)
-    mat[1,] <- mat[1,]/mat[2,]
-    mat[2,] <- mat[2,]/sum(mat[2,])
+    env[2,] <- colSums(env)
+    env[1,] <- env[1,]/env[2,]
+    env[2,] <- env[2,]/sum(env[2,])
   }
-  p <- (mat[1,] %*% mat[2,])[1]
+  p <- (env[1,] %*% env[2,])[1]
   norm <- 1/(sqrt(p*(1-p)))
-  mat[1,] <- sqrt(mat[1,]*(1-mat[1,]))
-  seg <- 1 - norm*(mat[1,] %*% mat[2,])[1]
+  env[1,] <- sqrt(env[1,]*(1-env[1,]))
+  seg <- 1 - norm*(env[1,] %*% env[2,])[1]
   return(seg)
 }
 
 
 #' @describeIn seg_ind_bin V Index, also known as Eta-squared index.
 #' @export
-v_ind_bin <- function(m, in_form = FALSE){
+v_ind_bin <- function(env, in_form = FALSE){
   if (!(in_form)){
-    m[2,] <- colSums(m)
-    m[1,] <- m[1,]/m[2,]
-    m[2,] <- m[2,]/sum(m[2,])
+    env[2,] <- colSums(env)
+    env[1,] <- env[1,]/env[2,]
+    env[2,] <- env[2,]/sum(env[2,])
   }
   #Calculate the row margin
-  p_f <- sum(unlist(lapply(seq(ncol(m)), function(x) prod(m[,x]))))
-  tot <- (m[2,]%*%(m[1,]^2))[1]
+  p_f <- sum(unlist(lapply(seq(ncol(env)), function(x) prod(env[,x]))))
+  tot <- (env[2,]%*%(env[1,]^2))[1]
   return(tot/(p_f*(1-p_f)) - p_f/(1-p_f))
 }
 
 #' @describeIn seg_ind_bin Isolation Index. Notice, this is asymmetric.
 #' @export
-isolation_ind_bin <- function(m, in_form = FALSE){
+isolation_ind_bin <- function(env, in_form = FALSE){
   if (!in_form){
-    m[2,] <- colSums(m)
-    m[1,] <- m[1,]/m[2,]
-    m[2,] <- m[2,]/sum(m[2,])
+    env[2,] <- colSums(env)
+    env[1,] <- env[1,]/env[2,]
+    env[2,] <- env[2,]/sum(env[2,])
   }
-  p <- (m[1,]%*%m[2,])[1]
-  return(1/p*sum(m[2,]*m[1,]^2))
+  p <- (env[1,]%*%env[2,])[1]
+  return(1/p*sum(env[2,]*env[1,]^2))
 }
 
-#' @describeIn seg_ind A convenience function to calculate the Isolation Index for
+#' @describeIn seg_ind_bin A convenience function to calculate the Isolation Index for
 #'    the second group in an environment.
 #' @export
-isolationInv_ind_bin <- function(m, in_form = FALSE){
+isolationInv_ind_bin <- function(env, in_form = FALSE){
   if (!in_form){
-    m[2,] <- colSums(m)
-    m[1,] <- m[1,]/m[2,]
-    m[2,] <- m[2,]/sum(m[2,])
+    env[2,] <- colSums(env)
+    env[1,] <- env[1,]/env[2,]
+    env[2,] <- env[2,]/sum(env[2,])
   }
-  m[1,]  <- 1-m[1,]
-  return(isolation_ind_bin(m, in_form = TRUE))
+  env[1,]  <- 1-env[1,]
+  return(isolation_ind_bin(env, in_form = TRUE))
 }

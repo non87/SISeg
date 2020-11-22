@@ -9,26 +9,29 @@
 \alias{atkinson_ind_bin}
 \alias{v_ind_bin}
 \alias{isolation_ind_bin}
+\alias{isolationInv_ind_bin}
 \title{Binomial Form of Segregation Indices}
 \usage{
-d_ind_bin(mat, in_form = FALSE)
+d_ind_bin(env, in_form = FALSE)
 
-gini_ind_bin(mat, in_form = FALSE)
+gini_ind_bin(env, in_form = FALSE)
 
-mutual_info_ind_bin(mat, in_form = FALSE)
+mutual_info_ind_bin(env, in_form = FALSE)
 
-theil_ind_bin(mat, in_form = FALSE)
+theil_ind_bin(env, in_form = FALSE)
 
-atkinson_ind_bin(mat, in_form = FALSE)
+atkinson_ind_bin(env, in_form = FALSE)
 
-v_ind_bin(m, in_form = FALSE)
+v_ind_bin(env, in_form = FALSE)
 
-isolation_ind_bin(m, in_form = FALSE)
+isolation_ind_bin(env, in_form = FALSE)
+
+isolationInv_ind_bin(env, in_form = FALSE)
 }
 \arguments{
-\item{in_form}{\code{logical}, is \code{env} in binomial form?}
-
 \item{env}{2xN \code{matrix} of \code{numeric}.}
+
+\item{in_form}{\code{logical}, is \code{env} in binomial form?}
 }
 \value{
 \code{numeric} representing the index value for the data. This result
@@ -86,14 +89,17 @@ The weights are assumed to be uniform over the units.
 \item \code{v_ind_bin}: V Index, also known as Eta-squared index.
 
 \item \code{isolation_ind_bin}: Isolation Index. Notice, this is asymmetric.
+
+\item \code{isolationInv_ind_bin}: A convenience function to calculate the Isolation Index for
+the second group in an environment.
 }}
 
 \examples{
-env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 basic <- d_ind(env)
 bin <-  d_ind_bin(env)
 all.equal(basic, bin)
-env_bin_form <- colSums(env)
+env_bin_form <- env
 env_bin_form[2,] <- colSums(env_bin_form)
 env_bin_form[1,] <- env_bin_form[1,]/env_bin_form[2,]
 env_bin_form[2,] <- env_bin_form[2,]/sum(env_bin_form[2,])

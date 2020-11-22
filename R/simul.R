@@ -24,7 +24,7 @@
 #' @export
 #'
 #' @param n_1 \code{numeric} representing the number of individuals from group 1.
-#' @param n_1 \code{numeric} representing the number of individuals from group 2.
+#' @param n_2 \code{numeric} representing the number of individuals from group 2.
 #' @param p_1 \code{vector} of probability for group 1.
 #' @param p_2 \code{vector} of probability for group 2.
 #' @param dir_1 \code{vector} the shape parameter of the Dirichlet-multinomial
@@ -35,7 +35,7 @@
 #' @return \code{matrix} containing the generated sample
 #' @family frameworks
 #' @examples
-#' env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+#' env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 #' n_1 <- sum(env[1,])
 #' n_2 <- sum(env[2,])
 #' p_1 <- env[1,]
@@ -59,7 +59,7 @@ r_independent_group <- function(n_1, n_2, p_1 = F, p_2 = F, dir_1 = F, dir_2 = F
     }}
   observed_1 <- stats::rmultinom(1, n_1, p_1)
   observed_2 <- stats::rmultinom(1, n_2, p_2)
-  return(matrix(c(observed_1, observed_2), byrow = T, nrow = 2))
+  return(matrix(c(observed_1, observed_2), byrow = TRUE, nrow = 2))
 }
 
 #' Simulate Full Multinomial Framework
@@ -89,7 +89,7 @@ r_independent_group <- function(n_1, n_2, p_1 = F, p_2 = F, dir_1 = F, dir_2 = F
 #' @return \code{matrix} containing the generated sample
 #' @family frameworks
 #' @examples
-#' env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+#' env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 #' n <- sum(env)
 #' p <- c(t(env))
 #' samp <- r_full_multinomial(n = n, p = p)
@@ -104,7 +104,7 @@ r_full_multinomial <- function(n, p = F, dir_alpha = F){
       stop("If you do not specify p, you need to specify dir")
     }}
   observed <- stats::rmultinom(1, n, p)
-  return(matrix(observed, byrow = T, nrow = 2))
+  return(matrix(observed, byrow = TRUE, nrow = 2))
 }
 
 #This is used in the simulation to create random
@@ -157,7 +157,7 @@ r_full_multinomial <- function(n, p = F, dir_alpha = F){
 #' @return A 2xk \code{matrix} containing the generated sample.
 #' @family frameworks
 #' @examples
-#' env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+#' env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 #' ns <- colSums(env)
 #' ps <- env[1,]/ns
 #' samp <- r_independent_unit(ns = ns, ps = ps)
@@ -182,5 +182,5 @@ r_independent_unit <- function(ns, ps = F, alfas = F, betas = F){
     }}
   g1_observed <- mapply(function(x, N) stats::rbinom(1, N, x), x = ps, N = ns)
   g2_observed <- ns - g1_observed
-  return(matrix(c(g1_observed, g2_observed), byrow = T, ncol = length(ns)))
+  return(matrix(c(g1_observed, g2_observed), byrow = TRUE, ncol = length(ns)))
 }

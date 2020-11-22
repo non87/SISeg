@@ -10,7 +10,6 @@
 \alias{v_ind}
 \alias{isolation_ind}
 \alias{isolationInv_ind}
-\alias{isolationInv_ind_bin}
 \title{Segregation Indices}
 \usage{
 d_ind(env)
@@ -28,11 +27,9 @@ v_ind(env)
 isolation_ind(env)
 
 isolationInv_ind(env)
-
-isolationInv_ind_bin(m, in_form = FALSE)
 }
 \arguments{
-\item{mat}{2xN matrix of numeric.}
+\item{env}{2xN matrix of numeric.}
 }
 \value{
 \code{numeric} representing the index value for the data.
@@ -78,13 +75,10 @@ The weights are assumed to be uniform over the units.
 
 \item \code{isolationInv_ind}: A convenience function to calculate the Isolation Index for
 the second group in an environment.
-
-\item \code{isolationInv_ind_bin}: A convenience function to calculate the Isolation Index for
-the second group in an environment.
 }}
 
 \examples{
-env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 d_ind(env)
 gini_ind(env)
 mutual_info_ind(env)
@@ -92,8 +86,8 @@ theil_ind(env)
 atkinson_ind(env)
 v_ind(env)
 isolation_ind(env)
-isolationInv_ind(env[c(2,1)])
-isolation_ind(env) == isolationInv_ind(env[c(2,1),])
+isolationInv_ind(env)
+isolation_ind(env[c(2,1),]) == isolationInv_ind(env)
 }
 \references{
 For the index formulas and properties, see discussion in (sources

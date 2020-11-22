@@ -60,9 +60,9 @@ d_isolationInv_ind_fm(env)
 
 d_v_ind_fm(env)
 
-d_D_ind_iu(env, in_form = F)
+d_D_ind_iu(env, in_form = FALSE)
 
-d_gini_ind_iu(env, in_form = F)
+d_gini_ind_iu(env, in_form = FALSE)
 
 d_mutual_info_ind_iu(env, in_form = FALSE)
 
@@ -212,5 +212,5 @@ framework) applied to the second row of the environment matrix.
 }}
 
 \examples{
-env_ <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = T)
+env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 }
