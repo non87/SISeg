@@ -43,7 +43,7 @@
 #' samp <- r_independent_group(n_1 = n_1, n_2 = n_2, p_1 = p_1, p_2 = p_2)
 #' samp2 <- r_independent_group(n_1 = n_1, n_2 = n_2, dir_1 = p_1, dir_2 = p_2)
 #' all.equal(rowSums(env), rowSums(samp), rowSums(samp2))
-r_independent_group <- function(n_1, n_2, p_1 = F, p_2 = F, dir_1 = F, dir_2 = F){
+r_ig <- function(n_1, n_2, p_1 = F, p_2 = F, dir_1 = F, dir_2 = F){
   # There is nothing to sample if we only have one column
   if (length(p_1) == 1){
     if (length(dir_1) > 1){
@@ -95,7 +95,7 @@ r_independent_group <- function(n_1, n_2, p_1 = F, p_2 = F, dir_1 = F, dir_2 = F
 #' samp <- r_full_multinomial(n = n, p = p)
 #' samp2 <- r_full_multinomial(n = n, dir_alpha = p)
 #' all.equal(sum(env), sum(samp), sum(samp2))
-r_full_multinomial <- function(n, p = F, dir_alpha = F){
+r_fm <- function(n, p = F, dir_alpha = F){
   # We use all.equal to enforce some tolerance
   if (length(p) == 1){
     if (length(dir_alpha) > 1){
@@ -168,7 +168,7 @@ r_full_multinomial <- function(n, p = F, dir_alpha = F){
 #' betas <- 3
 #' samp3 <- r_independent_unit(ns = ns, alfas = alfas, betas = betas)
 #' all.equal(colSums(env), colSums(samp), colSums(samp2), colSums(samp3))
-r_independent_unit <- function(ns, ps = F, alfas = F, betas = F){
+r_iu <- function(ns, ps = F, alfas = F, betas = F){
   if (length(ps) == 1){
     # Beta and alfa cannot be 0 in any case. So this is a valid test
     if ((betas) & (alfas)){

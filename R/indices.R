@@ -12,7 +12,7 @@
 #' represented as a matrix. They output a positive \code{numeric} representing
 #' the segregation in the environment,
 #'
-#' All functions have names end in "_ind". They take in input a 2xN matrix.
+#' All functions take in input a 2xN matrix.
 #' In the matix, each cell shows how many individuals from a given group are in
 #' a certain unit. The rows of the matrix are considered the groups in the
 #' environment. The columns are considered the different units. The functions
@@ -21,6 +21,10 @@
 #'
 #' At this point, all indices suppose that there are only two groups in the
 #' environment. This will change later.
+#'
+#' @section Naming convention:
+#' All functions have names ending in "_ind" and starting with the name of the
+#' index. For example, "d_ind". Notice, everything is lowercase.
 #'
 #' @references
 #' For the index formulas and properties, see discussion in (sources
@@ -202,6 +206,12 @@ isolationInv_ind <- function(env){
 #' unit in the environment. If the input matrix is in this form, then the
 #' argument \code{in_form} should be set to \code{TRUE}
 #'
+#' @section Naming convention:
+#' All functions have names ending in "_bin" and starting with the name of the
+#' index. In the middle, they have the word "_ind". For example, "d_ind_bin".
+#' Notice, everything is lowercase.
+#'
+#' @references
 #' The use of a binomial form is convenient, theoretically, to formulate
 #' multi-group indices. See
 #'

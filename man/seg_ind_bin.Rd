@@ -64,12 +64,6 @@ the first row represents the proportion of individuals from group one in
 a unit. The second row represents the proportions of individual from a
 unit in the environment. If the input matrix is in this form, then the
 argument \code{in_form} should be set to \code{TRUE}
-
-The use of a binomial form is convenient, theoretically, to formulate
-multi-group indices. See
-
-Reardon, Sean F., and Glenn Firebaugh. 2002. “Measures of Multigroup
-Segregation.” Sociological Methodology 32 (1): 33–67.
 }
 \section{Functions}{
 \itemize{
@@ -94,6 +88,13 @@ The weights are assumed to be uniform over the units.
 the second group in an environment.
 }}
 
+\section{Naming convention}{
+
+All functions have names ending in "_bin" and starting with the name of the
+index. In the middle, they have the word "_ind". For example, "d_ind_bin".
+Notice, everything is lowercase.
+}
+
 \examples{
 env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
 basic <- d_ind(env)
@@ -105,6 +106,13 @@ env_bin_form[1,] <- env_bin_form[1,]/env_bin_form[2,]
 env_bin_form[2,] <- env_bin_form[2,]/sum(env_bin_form[2,])
 bin_bin_form <- d_ind_bin(env_bin_form, in_form = TRUE)
 all.equal(bin_bin_form, bin)
+}
+\references{
+The use of a binomial form is convenient, theoretically, to formulate
+multi-group indices. See
+
+Reardon, Sean F., and Glenn Firebaugh. 2002. “Measures of Multigroup
+Segregation.” Sociological Methodology 32 (1): 33–67.
 }
 \seealso{
 Other indices: 

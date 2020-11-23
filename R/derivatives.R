@@ -18,20 +18,8 @@
 #' representing the analyzed environment. As for all other functions in SISeg,
 #' the derivatives assume a 2-groups environment.
 #' These functions output the derivative of a certain index for the given
-#' environment under a certain statistical framework. Notice the naming
-#' convention. All derivative functions' names start with a "d_". Then, they
-#' have the complete name of the index function they take a derivative of, for
-#' example "d_ind". Finally they have an abbreviated name of the statistical
-#' framework, specifically:
-#' \itemize{
-#' \item{_ig for the independent-groups framework}
-#' \item{_fm for the full-multinomial framework}
-#' \item{_iu for the independent-units framework}
-#' }
-#' For example, the function ``d_d_ind_fm'' calculates the derivative of the
-#' D index under the multinomial framework.
-#'
-#' The derivatives are returned in the form of a \code{vector}. The vectors are
+#' environment under a certain statistical framework. The derivatives are
+#' returned in the form of a \code{vector}. The vectors are
 #' ordered in a specific way that depends on the framework used:
 #' \describe{
 #' \item{Independent-groups & Full-multinomial}{In the case of the
@@ -67,6 +55,19 @@
 #' independent-units framework will result to be 0. The 0s are substantially
 #' place-holders.
 #'
+#' @section Naming convention:
+#' All derivative functions' names start with a "d_". Then, they
+#' have the complete name of the index function they take a derivative of, for
+#' example "d_ind". Finally they have an abbreviated name of the statistical
+#' framework, specifically:
+#' \itemize{
+#' \item{_ig for the independent-groups framework}
+#' \item{_fm for the full-multinomial framework}
+#' \item{_iu for the independent-units framework}
+#' }
+#' For example, the function ``d_d_ind_fm'' calculates the derivative of the
+#' D index under the multinomial framework. Notice, everything is lowercase.
+#'
 #' @name seg_deriv
 #'
 #' @param env 2xk matrix of numeric.
@@ -76,6 +77,15 @@
 #'     each of the framework's parameters.
 #' @examples
 #' env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
+#' d_d_ind_ig(env)
+#' d_gini_ind_ig(env)
+#' env_bin_form <- env
+#' env_bin_form[2,] <- colSums(env_bin_form)
+#' env_bin_form[1,] <- env_bin_form[1,]/env_bin_form[2,]
+#' env_bin_form[2,] <- env_bin_form[2,]/sum(env_bin_form[2,])
+#' der_d <- d_d_ind_iu(env)
+#' der_d_bin <-  d_d_ind_iu(env_bin_form, in_form = TRUE)
+#' all.equal(der_d, der_d_bin)
 NULL
 
 
@@ -328,7 +338,7 @@ d_v_ind_fm <- function(env){
 
 #' @describeIn seg_deriv D Index, independent-units framework.
 #' @export
-d_D_ind_iu <- function(env, in_form = FALSE){
+d_d_ind_iu <- function(env, in_form = FALSE){
   if (!(in_form)){
     env[2,] <- colSums(env)
     env[1,] <- env[1,]/env[2,]

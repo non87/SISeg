@@ -40,7 +40,7 @@ represented as a matrix. They output a positive \code{numeric} representing
 the segregation in the environment,
 }
 \details{
-All functions have names end in "_ind". They take in input a 2xN matrix.
+All functions take in input a 2xN matrix.
 In the matix, each cell shows how many individuals from a given group are in
 a certain unit. The rows of the matrix are considered the groups in the
 environment. The columns are considered the different units. The functions
@@ -76,6 +76,12 @@ The weights are assumed to be uniform over the units.
 \item \code{isolationInv_ind}: A convenience function to calculate the Isolation Index for
 the second group in an environment.
 }}
+
+\section{Naming convention}{
+
+All functions have names ending in "_ind" and starting with the name of the
+index. For example, "d_ind". Notice, everything is lowercase.
+}
 
 \examples{
 env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)

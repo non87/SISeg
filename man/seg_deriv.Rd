@@ -18,7 +18,7 @@
 \alias{d_isolation_ind_fm}
 \alias{d_isolationInv_ind_fm}
 \alias{d_v_ind_fm}
-\alias{d_D_ind_iu}
+\alias{d_d_ind_iu}
 \alias{d_gini_ind_iu}
 \alias{d_mutual_info_ind_iu}
 \alias{d_theil_ind_iu}
@@ -60,7 +60,7 @@ d_isolationInv_ind_fm(env)
 
 d_v_ind_fm(env)
 
-d_D_ind_iu(env, in_form = FALSE)
+d_d_ind_iu(env, in_form = FALSE)
 
 d_gini_ind_iu(env, in_form = FALSE)
 
@@ -99,20 +99,8 @@ where these functions are used. All functions take as input a 2xN matrix
 representing the analyzed environment. As for all other functions in SISeg,
 the derivatives assume a 2-groups environment.
 These functions output the derivative of a certain index for the given
-environment under a certain statistical framework. Notice the naming
-convention. All derivative functions' names start with a "d_". Then, they
-have the complete name of the index function they take a derivative of, for
-example "d_ind". Finally they have an abbreviated name of the statistical
-framework, specifically:
-\itemize{
-\item{_ig for the independent-groups framework}
-\item{_fm for the full-multinomial framework}
-\item{_iu for the independent-units framework}
-}
-For example, the function ``d_d_ind_fm'' calculates the derivative of the
-D index under the multinomial framework.
-
-The derivatives are returned in the form of a \code{vector}. The vectors are
+environment under a certain statistical framework. The derivatives are
+returned in the form of a \code{vector}. The vectors are
 ordered in a specific way that depends on the framework used:
 \describe{
 \item{Independent-groups & Full-multinomial}{In the case of the
@@ -190,7 +178,7 @@ framework) applied to the second row of the environment matrix.
 
 \item \code{d_v_ind_fm}: V Index, full multinomial framework.
 
-\item \code{d_D_ind_iu}: D Index, independent-units framework.
+\item \code{d_d_ind_iu}: D Index, independent-units framework.
 
 \item \code{d_gini_ind_iu}: Gini Index, independent-units framework. As usual for
 the Gini index, this is more complex than other derivatives under this
@@ -211,6 +199,30 @@ framework) applied to the second row of the environment matrix.
 \item \code{d_v_ind_iu}: V Index, independent-units framework.
 }}
 
+\section{Naming convention}{
+
+All derivative functions' names start with a "d_". Then, they
+have the complete name of the index function they take a derivative of, for
+example "d_ind". Finally they have an abbreviated name of the statistical
+framework, specifically:
+\itemize{
+\item{_ig for the independent-groups framework}
+\item{_fm for the full-multinomial framework}
+\item{_iu for the independent-units framework}
+}
+For example, the function ``d_d_ind_fm'' calculates the derivative of the
+D index under the multinomial framework. Notice, everything is lowercase.
+}
+
 \examples{
 env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
+d_d_ind_ig(env)
+d_gini_ind_ig(env)
+env_bin_form <- env
+env_bin_form[2,] <- colSums(env_bin_form)
+env_bin_form[1,] <- env_bin_form[1,]/env_bin_form[2,]
+env_bin_form[2,] <- env_bin_form[2,]/sum(env_bin_form[2,])
+der_d <- d_d_ind_iu(env)
+der_d_bin <-  d_d_ind_iu(env_bin_form, in_form = TRUE)
+all.equal(der_d, der_d_bin)
 }
