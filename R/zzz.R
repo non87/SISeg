@@ -2,4 +2,3 @@
 .onLoad <- function(libname, pkgname){
   create_env_lists()
 }
-
