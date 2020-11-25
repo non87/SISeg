@@ -81,7 +81,7 @@ sigma_ig <- function(env){
 sigma_fm <- function(env){
   N <- sum(env)
   env <- c(env[1,], env[2,])
-  return(mult_vcv(env/N))
+  return(mult_vcv(env/N, 1))
 }
 
 #' @describeIn sigmas Variance-covariance matrix for the independent-units

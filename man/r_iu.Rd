@@ -4,60 +4,100 @@
 \alias{r_iu}
 \title{Simulate Independent-unit Framework}
 \usage{
-r_iu(ns, ps = F, alfas = F, betas = F)
+r_iu(env, n_b = 5000, ws = NULL, bay = FALSE, prior = NULL, list_out = FALSE)
 }
 \arguments{
-\item{ns}{A k-length \code{vector} containing the trial parameter for each
-binomial distribution.}
+\item{env}{nxk \code{matrix} of \code{numeric}.}
 
-\item{ps}{A k-length \code{vector} containing the probability
-parameter for each binomial distribution.}
+\item{n_b}{\code{numeric}. How many simulations should be returned?}
 
-\item{alfas}{A k-length \code{vector} containing the alfa parameters for each
-beta-binomial distribution. Alternatively a \code{numeric} showing the
-alfa parameter for all beta-binomial distribution.}
+\item{ws}{A k-long \code{vector} containing the number of individual in each
+unit.}
 
-\item{betas}{A k-length \code{vector} containing the beta parameters for each
-beta-binomial distribution. Alternatively a \code{numeric} showing the
-beta parameter for all beta-binomial distribution.}
+\item{bay}{\code{logical} Should the Bayesian model be used?}
+
+\item{prior}{k-long \code{list} containing n probability vectors for the
+Dirichlet distributions. Will be ignored if \code{bay} is FALSE.}
+
+\item{list_out}{\code{logical} should the output be in a list form?
+distributions -- one per column. Will be ignored if \code{bay} is FALSE.}
 }
 \value{
-A 2xk \code{matrix} containing the generated sample.
+The return depends on the value of \code{list_out} and \code{bay}. By
+default, both are \code{FALSE}. In that case, the function returns a
+\code{matrix} where every row contains a simulated environment. Within
+each row, the values are ordered by row. In case of \code{list_out} set
+to \code{TRUE} and \code{bay} set to \code{FALSE}, the output will
+be a \code{n_b}-long list of \code{matrix} showing the simulated
+environments.
+When \code{bay} is \code{TRUE}, the output will always be a \code{list}.
+The first element of the list contains the simulated environments and
+the second element contains the Dirichlet samples used to create the
+simulated environment, scaled so that the total sum for each environment
+is one. The way these pieces of information are shaped depends on the
+value of \code{list_out}. If \code{list_out} is \code{FALSE},
+the information will be stored in \code{matrix}: one \code{matrix} for
+the simulated
+environment, one \code{matrix} for the Dirichlet samples. In the two
+matrices, every row represent a simulated environment, ordered by
+row. The two matrices are ordered so that the kth row in one corresponds
+to the kth row in the other. If \code{list_out} is \code{TRUE} (and
+\code{bay} is \code{TRUE}), the
+output will be shaped in a \code{list} of 2 lists. The first \code{list}
+contains the simulated environment. The second \code{list} contains the
+Dirichlet sample used to create the simulated environment. The lists
+are ordered so that the kth environment was created from the kth
+Dirichlet sample.
 }
 \description{
-\code{r_independent_unit} samples from k independent multinomial
-distributions or, following a simple Bayesian  conjugate model, k beta-
-binomial distributions -- where k is the number of units in an environment.
-Returns the sample in the form of a 2xk matrix. At least, one
-among ps and both alfas and betas must be specified.
+\code{r_iu} samples n_b times from k independent multinomial
+distributions or, following a simple Bayesian  conjugate model, k Dirichlet-
+multinomial distributions -- where k is the number of units in an environment.
+Returns the simulations in the form of a matrix or list.
+If the Bayesian model is used, \code{r_iu} also returns the
+simulated probability vectors from the Dirichlet distributions.
 }
 \details{
-Simulate a sample from k independent distributions, one per unit. The
-user can sample from independent binomial, or independent
-beta-binomial. The kth binomial distributions will take as
-probability vectors the kth element of ps. The kth beta-bininomial
-distributions will take as alfa (beta) the kth element in alfas (betas) if
-alfas is a \code{vector}. Otherwise all beta-binomial distributions will
-have alfas (betas) as the alfa (beta) parameter, when alfas (betas) is
-\code{numeric}.
-In case ps is specified, alfas and betas will be ignored and
-the units' composition will be sampled from binomial distributions.
-
-At least, one among ps and both alphas and betas must be specified.
-The length of ns and ps (or alphas and betas) must be identical.
+\code{r_iu} simulates samples from k independent distributions, one per unit.
+The user can sample from independent multinomial, or independent
+Dirichlet-multinomial, depending on the value of  \code{bay}.
+If \code{bay} is \code{TRUE}, the function will sample from
+Dirichlet-multinomial distributions following a simple conjugate model.
+Whatever the case,  \code{r_iu} will sample \code{n_b} times and return the
+results in a matrix or list format, depending on the \code{list_out}
+argument.
+The user can specify a \code{prior} for the model, otherwise, the function
+will default to a Jeffrey's prior. The parameter \code{ws} regulates the
+number of individuals in each unit, regardless of the input environment.
+If \code{ws} is not specified, the simulations will have the same number of
+individuals per unit as the input environment.
 }
 \examples{
-env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
-ns <- colSums(env)
-ps <- env[1,]/ns
-samp <- r_independent_unit(ns = ns, ps = ps)
-alfas <- env[1,]
-betas <- env[2,]
-samp2 <- r_independent_unit(ns = ns, alfas = alfas, betas = betas)
-alfas <- 2
-betas <- 3
-samp3 <- r_independent_unit(ns = ns, alfas = alfas, betas = betas)
-all.equal(colSums(env), colSums(samp), colSums(samp2), colSums(samp3))
+env <- matrix(seq(12), nrow = 3, byrow = TRUE)
+samp <- r_iu(env, n_b = 1000, list_out = TRUE)
+samp2 <- r_iu(env, n_b = 1000, list_out = TRUE, bay = TRUE)
+# Very strong priors
+priors <- list(c(0,0,30))
+priors <- rep(priors, ncol(env))
+samp3 <- r_iu(env, n_b = 1000, list_out = TRUE, bay = TRUE, prior =
+ priors)
+all.equal(colSums(env), colSums(samp[[1]]), colSums(samp2[[1]][[1]]),
+colSums(samp3[[1]][[1]]))
+all.equal(colSums(samp2[[2]][[1]]), colSums(samp3[[2]][[1]]))
+# How are the list and matrix output related?
+set.seed(1234)
+samp_list <- r_iu(env, n_b = 2, list_out = TRUE)
+set.seed(1234)
+samp_mat <- r_iu(env, n_b = 2, list_out = FALSE)
+all.equal(samp_list[[2]], matrix(samp_mat[2,], byrow = TRUE,
+  nrow = nrow(env)))
+# For the Dirchlet samples is really the same
+set.seed(1234)
+samp_list <- r_iu(env, n_b = 2, list_out = TRUE, bay = TRUE)
+set.seed(1234)
+samp_mat <- r_iu(env, n_b = 2, list_out = FALSE, bay = TRUE)
+all.equal(samp_list[[2]][[2]], matrix(samp_mat[[2]][2,], byrow = TRUE,
+  nrow = nrow(env)))
 }
 \seealso{
 Other frameworks: 

@@ -4,42 +4,91 @@
 \alias{r_fm}
 \title{Simulate Full Multinomial Framework}
 \usage{
-r_fm(n, p = F, dir_alpha = F)
+r_fm(env, n_b, bay = FALSE, prior = NULL, list_out = FALSE)
 }
 \arguments{
-\item{n}{\code{numeric} representing the number of individuals in the sample.}
+\item{env}{nxk \code{matrix} of \code{numeric}.}
 
-\item{p}{\code{vector} of probability for the multinomial distribution.}
+\item{n_b}{\code{numeric}. How many simulations should be returned?}
 
-\item{dir_alpha}{\code{vector} the shape parameter of the Dirichlet-multinomial
-distribution.}
+\item{bay}{\code{logical} Should the Bayesian model be used?}
+
+\item{prior}{n-long \code{list} containing n probability vectors for the
+Dirichlet distributions. Will be ignored if \code{bay} is FALSE.}
+
+\item{list_out}{\code{logical} should the output be in a list form?}
 }
 \value{
-\code{matrix} containing the generated sample
+The return depends on the value of \code{list_out} and \code{bay}. By
+default, both are \code{FALSE}. In that case, the function returns a
+\code{matrix} where every row contains a simulated environment. Within
+each row, the values are ordered by row. In case of \code{list_out} set
+to \code{TRUE} and \code{bay} set to \code{FALSE}, the output will
+be a \code{n_b}-long list of \code{matrix} showing the simulated
+environments.
+When \code{bay} is \code{TRUE}, the output will always be a \code{list}.
+The first element of the list contains the simulated environments and
+the second element contains the Dirichlet samples used to create the
+simulated environment, scaled so that the total sum for each environment
+is one. The way these pieces of information are shaped depends on the
+value of \code{list_out}. If \code{list_out} is \code{FALSE},
+the information will be stored in \code{matrix}: one \code{matrix} for
+the simulated
+environment, one \code{matrix} for the Dirichlet samples. In the two
+matrices, every row represent a simulated environment, ordered by
+row. The two matrices are ordered so that the kth row in one corresponds
+to the kth row in the other. If \code{list_out} is \code{TRUE} (and
+\code{bay} is \code{TRUE}), the
+output will be shaped in a \code{list} of 2 lists. The first \code{list}
+contains the simulated environment. The second \code{list} contains the
+Dirichlet sample used to create the simulated environment. The lists
+are ordered so that the kth environment was created from the kth
+Dirichlet sample.
 }
 \description{
-\code{r_full_multinomial} samples from one
-distribution or, following a simple conjugate model, a Dirichlet-
-multinomial. Returns the sample in the form of a matrix. At least, one
-among p and dir must be specified.
+\code{r_fm} samples an environment from one multinomial distribution or,
+following a simple conjugate model, one Dirichlet-multinomial distribution.
+Returns \code{n_b} simulated samples in the form of a
+list or a matrix. If the Bayesian model is used, \code{r_fm} also returns
+simulated the probability vectors from the Dirichlet distribution.
 }
 \details{
-Simulate one sample from from a multinomial distribution or
-Dirichlet-multinomial distribution. The multinomial distribution will take as
-probability vectors p. The Dirichlet-multinomial distribution will
-take as alpha vectors dir_alpha. In case p is specified,
-dir_alpha will be ignored and the sample will be simulated from a multinomial
-distribution. p does not have to be normalized.
-
-At least, one among p and dir_alpha must be specified.
+\code{r_fm} simulates samples from one distribution for the entire
+environment. The user can sample from a multinomial, or a Dirichlet-multinomial
+distribution depending on the value of  \code{bay}.
+If \code{bay} is \code{TRUE}, the function will sample from
+Dirichlet-multinomial distributions following a simple conjugate model.
+Whatever the case, \code{r_fm} will sample \code{n_b} times and return the
+results in a matrix or list format, depending on the \code{list_out}
+argument. The user can specify a \code{prior} for the model, otherwise, the
+function will default to a Jeffrey's prior.
 }
 \examples{
-env <- matrix(c(1,2,3,4,5,6,7,8), nrow = 2, byrow = TRUE)
-n <- sum(env)
-p <- c(t(env))
-samp <- r_full_multinomial(n = n, p = p)
-samp2 <- r_full_multinomial(n = n, dir_alpha = p)
-all.equal(sum(env), sum(samp), sum(samp2))
+env <- matrix(seq(12), nrow = 3, byrow = TRUE)
+samp <- r_fm(env, n_b = 1000, list_out = TRUE)
+samp2 <- r_fm(env, n_b = 1000, list_out = TRUE, bay = TRUE)
+# Very strong priors
+priors <- rep(0, nrow(env)*ncol(env))
+priors[10] <- 50
+samp3 <- r_fm(env, n_b = 1000, list_out = TRUE, bay = TRUE, prior =
+ priors)
+all.equal(sum(env), sum(samp[[1]]), sum(samp2[[1]][[1]]),
+  sum(samp3[[1]][[1]]))
+all.equal(sum(samp2[[2]][[1]]), sum(samp3[[2]][[1]]))
+# How are the list and matrix output related?
+set.seed(1234)
+samp_list <- r_fm(env, n_b = 2, list_out = TRUE)
+set.seed(1234)
+samp_mat <- r_fm(env, n_b = 2, list_out = FALSE)
+all.equal(samp_list[[2]], matrix(samp_mat[2,], byrow = TRUE,
+  nrow = nrow(env)))
+# For the Dirchlet samples is really the same
+set.seed(1234)
+samp_list <- r_fm(env, n_b = 2, list_out = TRUE, bay = TRUE)
+set.seed(1234)
+samp_mat <- r_fm(env, n_b = 2, list_out = FALSE, bay = TRUE)
+all.equal(samp_list[[2]][[2]], matrix(samp_mat[[2]][2,], byrow = TRUE,
+  nrow = nrow(env)))
 }
 \seealso{
 Other frameworks: 

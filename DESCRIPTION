@@ -20,5 +20,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     stats,
-    gtools (>= 3.8.2)
+    gtools (>= 3.8.2),
+    Matrix,
+    methods
 Depends: R (>= 3.6.0)
