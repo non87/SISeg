@@ -110,7 +110,9 @@ assign('other_indices', NULL, envir = .index_env)
 index <- function(){
   # This is the fundamental that is used to create names, retrieve all
   # functions, create lists
-  assign('index', c(c("D","Gini", "Mutual_info", "Atkinson"),
+  supported_indices <- c("D","Gini", "Mutual_info", "Atkinson",
+                                 "Theil")
+  assign('index', c(supported_indices,
                     .index_env$other_indices), pos = .index_env)
 }
 
@@ -118,7 +120,9 @@ index <- function(){
 create_index_list <- function(){
   assign('indexes', list(), pos = .index_env)
   for (ind in .index_env$index){
-    name <- paste0(tolower(ind), "_ind")
+    # We lower all captals for the name
+    ind <- tolower(ind)
+    name <- paste0(ind, "_ind")
     .index_env$indexes[[ind]] <- match.fun(name)
   }
 }
@@ -167,10 +171,11 @@ create_derivative_list_framework <- function(framework = NULL){
   list_name <- paste('ders', abbr, sep = "_")
   # Create the derivative list outside and insert that last
   x <- vector("list", length=length(.index_env$index))
-  names(x) <- .index_env$index
+  names(x) <- tolower(.index_env$index)
   # Assign functions to list elements
   for (ind in .index_env$index){
-    fun_name <- paste("d", tolower(ind), "ind", abbr, sep = "_")
+    ind <- tolower(ind)
+    fun_name <- paste("d", ind, "ind", abbr, sep = "_")
     x[[ind]] <- match.fun(fun_name)
   }
   assign(list_name, x, pos = .index_env)
@@ -185,13 +190,20 @@ create_derivative_lists <- function(){
   for (frmew in .index_env$frmews){
     list_names <- append(list_names, create_derivative_list_framework(
       framework = frmew))
+    names(list_names)[length(list_names)] <- .index_env$frmews_abbr[frmew]
   }
   x <- vector("list", length=length(list_names))
-  names(x) <- list_names
+  names(x) <- .index_env$frmews_abbr
   assign('ders', x, pos = .index_env)
-  for (frmew in list_names){
-    .index_env$ders[[frmew]] <- get(frmew, pos = .index_env)
+  for (frmew in .index_env$frmews_abbr){
+    .index_env$ders[[frmew]] <- get(list_names[frmew], pos = .index_env)
   }
+}
+
+# Create list of valid method names for inference
+create_method_vector <- function(){
+  x <- c("Boot", "Asymp", "TBoot", "CBoot", "BayModel", "CBayBoot")
+  assign('methods', x, pos = .index_env)
 }
 
 # Wrapper to be called on load
@@ -201,6 +213,7 @@ create_env_lists <- function(){
   frameworks()
   sigmas()
   create_derivative_lists()
+  create_method_vector()
 }
 
 

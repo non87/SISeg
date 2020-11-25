@@ -142,7 +142,7 @@ d_mutual_info_ind_ig <- function(env){
 
 #' @describeIn seg_deriv Theil Index, independent-groups framework.
 #' @export
-d_theil_ig <- function(env){
+d_theil_ind_ig <- function(env){
   p <- rowSums(env)
   ent <- entropy(p)
   der <- 1/ent*d_mutual_info_ind_ig(env)

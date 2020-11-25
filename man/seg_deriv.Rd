@@ -5,7 +5,7 @@
 \alias{d_d_ind_ig}
 \alias{d_gini_ind_ig}
 \alias{d_mutual_info_ind_ig}
-\alias{d_theil_ig}
+\alias{d_theil_ind_ig}
 \alias{d_atkinson_ind_ig}
 \alias{d_isolation_ind_ig}
 \alias{d_isolationInv_ind_ig}
@@ -34,7 +34,7 @@ d_gini_ind_ig(env)
 
 d_mutual_info_ind_ig(env)
 
-d_theil_ig(env)
+d_theil_ind_ig(env)
 
 d_atkinson_ind_ig(env)
 
@@ -146,7 +146,7 @@ framework.
 
 \item \code{d_mutual_info_ind_ig}: Mutual Information Index, independent-groups framework.
 
-\item \code{d_theil_ig}: Theil Index, independent-groups framework.
+\item \code{d_theil_ind_ig}: Theil Index, independent-groups framework.
 
 \item \code{d_atkinson_ind_ig}: Atkinson Index, independent-groups framework. Supposes
 that all weights are equal.
