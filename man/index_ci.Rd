@@ -112,7 +112,7 @@ environments having a row (or a column) with only zeros. In these cases, the
 methods can fail in calculating the standard deviation or even the index
 value. These cases will therefore be discarded in the inference procedure and
 the function will produce warnings about this. However, this will be hardly
-consequential for the inference procedure.
+consequential for the final results.
 }
 
 \examples{
