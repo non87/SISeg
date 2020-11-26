@@ -187,8 +187,9 @@ index_ci <- function(env, seg_index = c("D", "Gini", "Mutual_info", "Atkinson",
            lambdas[[x]] %*%  Sigma_s %*% t(t(lambdas[[x]])))))
   names(v_est) <- seg_index
   if ("Asymp" %in% method){
-    CIs[["Asymp"]] <- lapply(seg_index, function(x) c(centers[x] + qnorm(alfa/2)*
-                            sqrt(v_est[x]),  centers[x] - qnorm(alfa/2)*
+    CIs[["Asymp"]] <- lapply(seg_index, function(x) c(centers[x] +
+                                                        stats::qnorm(alfa/2)*
+                            sqrt(v_est[x]),  centers[x] - stats::qnorm(alfa/2)*
                             sqrt(v_est[x]), centers[x]))
     names(CIs[["Asymp"]]) <- seg_index
   }
@@ -270,8 +271,8 @@ index_ci <- function(env, seg_index = c("D", "Gini", "Mutual_info", "Atkinson",
     }
     #Calculate the simple percentile Bootstrap CI
     if ("Boot" %in% method){
-      CIs[["Boot"]] <- lapply(index, function(x) c(hdi(resample_indexes[[x]],
-                                      credMass = confidence_level), centers[x]))
+      CIs[["Boot"]] <- lapply(index, function(x) c(HDInterval::hdi(
+        resample_indexes[[x]], credMass = confidence_level), centers[x]))
       names(CIs[["Boot"]]) <- index
     }
     #Calculate the bias-corrected percentile Bootstrap CI
@@ -555,9 +556,9 @@ index_difference_ci <- function(env1, env2, seg_index = c("D", "Gini",
   names(v_est2) <- seg_index
   if ("Asymp" %in% method){
     CIs[["Asymp"]] <- lapply(seg_index, function(x) c((centers1[x] - centers2[x])
-                    + qnorm(alfa/2)*sqrt(v_est1[x] + v_est2[x]),
-                    (centers1[x] - centers2[x]) -
-                    qnorm(alfa/2)*sqrt(v_est1[x] + v_est2[x]), centers_diff[x]))
+                    + stats::qnorm(alfa/2)*sqrt(v_est1[x] + v_est2[x]),
+                    (centers1[x] - centers2[x]) - stats::qnorm(alfa/2)*
+                      sqrt(v_est1[x] + v_est2[x]), centers_diff[x]))
     names(CIs[["Asymp"]]) <- seg_index
   }
   if ( ("CBoot" %in% method) | ("TBoot" %in% method)
@@ -617,7 +618,8 @@ index_difference_ci <- function(env1, env2, seg_index = c("D", "Gini",
         # indices are undefined when either a column or a row sums to zero
         # The probability of this happening are >0 in some bootstrap schemes.
         # We signal this to the user. All indices are equally affected by this
-        n_na <- sum( (is.na(resample_indexes[[i]])) | (ts_na) )
+        n_na <- sum( (is.na(resample_indexes1[[i]])) |
+                       (is.na(resample_indexes2[[i]])) | (ts_na) )
         actual_n <- n_b - n_na
         if (actual_n < n_b){
           warning(paste0("Due to NAs, the actual number of bootstrap samples for

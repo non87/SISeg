@@ -22,5 +22,6 @@ Imports:
     stats,
     gtools (>= 3.8.2),
     Matrix,
-    methods
+    methods,
+    HDInterval
 Depends: R (>= 3.6.0)
