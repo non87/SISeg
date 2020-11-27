@@ -8,7 +8,7 @@
 \alias{d_theil_ind_ig}
 \alias{d_atkinson_ind_ig}
 \alias{d_isolation_ind_ig}
-\alias{d_isolationInv_ind_ig}
+\alias{d_isolationinv_ind_ig}
 \alias{d_v_ind_ig}
 \alias{d_d_ind_fm}
 \alias{d_gini_ind_fm}
@@ -16,7 +16,7 @@
 \alias{d_theil_ind_fm}
 \alias{d_atkinson_ind_fm}
 \alias{d_isolation_ind_fm}
-\alias{d_isolationInv_ind_fm}
+\alias{d_isolationinv_ind_fm}
 \alias{d_v_ind_fm}
 \alias{d_d_ind_iu}
 \alias{d_gini_ind_iu}
@@ -24,7 +24,7 @@
 \alias{d_theil_ind_iu}
 \alias{d_atkinson_ind_iu}
 \alias{d_isolation_ind_iu}
-\alias{d_isolationInv_ind_iu}
+\alias{d_isolationinv_ind_iu}
 \alias{d_v_ind_iu}
 \title{Derivatives of Segregation Indices}
 \usage{
@@ -40,7 +40,7 @@ d_atkinson_ind_ig(env)
 
 d_isolation_ind_ig(env)
 
-d_isolationInv_ind_ig(env)
+d_isolationinv_ind_ig(env)
 
 d_v_ind_ig(env)
 
@@ -56,7 +56,7 @@ d_atkinson_ind_fm(env)
 
 d_isolation_ind_fm(env)
 
-d_isolationInv_ind_fm(env)
+d_isolationinv_ind_fm(env)
 
 d_v_ind_fm(env)
 
@@ -72,7 +72,7 @@ d_atkinson_ind_iu(env, in_form = FALSE)
 
 d_isolation_ind_iu(env, in_form = FALSE)
 
-d_isolationInv_ind_iu(env, in_form = FALSE)
+d_isolationinv_ind_iu(env, in_form = FALSE)
 
 d_v_ind_iu(env, in_form = FALSE)
 }
@@ -153,7 +153,7 @@ that all weights are equal.
 
 \item \code{d_isolation_ind_ig}: Isolation Index, independent-groups framework.
 
-\item \code{d_isolationInv_ind_ig}: Derivative for the Isolation Index (independent-groups
+\item \code{d_isolationinv_ind_ig}: Derivative for the Isolation Index (independent-groups
 framework) applied to the second row of the environment matrix.
 
 \item \code{d_v_ind_ig}: V Index, independent-groups framework.
@@ -173,7 +173,7 @@ are supposed to be equal.
 
 \item \code{d_isolation_ind_fm}: Isolation Index, full multinomial framework.
 
-\item \code{d_isolationInv_ind_fm}: Derivative for the Isolation Index (full multinomial
+\item \code{d_isolationinv_ind_fm}: Derivative for the Isolation Index (full multinomial
 framework) applied to the second row of the environment matrix.
 
 \item \code{d_v_ind_fm}: V Index, full multinomial framework.
@@ -193,7 +193,7 @@ that all weights are equal.
 
 \item \code{d_isolation_ind_iu}: Isolation Index, independent-units framework.
 
-\item \code{d_isolationInv_ind_iu}: Derivative for the Isolation Index (independent-units
+\item \code{d_isolationinv_ind_iu}: Derivative for the Isolation Index (independent-units
 framework) applied to the second row of the environment matrix.
 
 \item \code{d_v_ind_iu}: V Index, independent-units framework.

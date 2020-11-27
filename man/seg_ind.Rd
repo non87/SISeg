@@ -9,7 +9,7 @@
 \alias{atkinson_ind}
 \alias{v_ind}
 \alias{isolation_ind}
-\alias{isolationInv_ind}
+\alias{isolationinv_ind}
 \title{Segregation Indices}
 \usage{
 d_ind(env)
@@ -26,7 +26,7 @@ v_ind(env)
 
 isolation_ind(env)
 
-isolationInv_ind(env)
+isolationinv_ind(env)
 }
 \arguments{
 \item{env}{2xN matrix of numeric.}
@@ -73,7 +73,7 @@ The weights are assumed to be uniform over the units.
 
 \item \code{isolation_ind}: Isolation Index. Notice, this is asymmetric.
 
-\item \code{isolationInv_ind}: A convenience function to calculate the Isolation Index for
+\item \code{isolationinv_ind}: A convenience function to calculate the Isolation Index for
 the second group in an environment.
 }}
 

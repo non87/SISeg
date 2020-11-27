@@ -37,7 +37,8 @@ be compared in a plot? Ignored if \code{asymp} is FALSE.}
 \code{list} containing the results of the tests. If \code{asymp} is
 \code{TRUE}, it will contain the results of the Kolgomorov-Smirnov test
 against normality. A successful test will return a large p-value. If
-\code{asymp} is \code{TRUE}, the function will also produce plots
+\code{asymp} is \code{TRUE} and \code{graph} is also \code{TRUE},
+the function will also produce plots
 showing the sampling distribution for the tested index and the
 asymptotic normal distribution for the index -- the two distribution
 should be very similar. If \code{estimate} is \code{TRUE}, the

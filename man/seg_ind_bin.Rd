@@ -9,7 +9,7 @@
 \alias{atkinson_ind_bin}
 \alias{v_ind_bin}
 \alias{isolation_ind_bin}
-\alias{isolationInv_ind_bin}
+\alias{isolationinv_ind_bin}
 \title{Binomial Form of Segregation Indices}
 \usage{
 d_ind_bin(env, in_form = FALSE)
@@ -26,7 +26,7 @@ v_ind_bin(env, in_form = FALSE)
 
 isolation_ind_bin(env, in_form = FALSE)
 
-isolationInv_ind_bin(env, in_form = FALSE)
+isolationinv_ind_bin(env, in_form = FALSE)
 }
 \arguments{
 \item{env}{2xN \code{matrix} of \code{numeric}.}
@@ -84,7 +84,7 @@ The weights are assumed to be uniform over the units.
 
 \item \code{isolation_ind_bin}: Isolation Index. Notice, this is asymmetric.
 
-\item \code{isolationInv_ind_bin}: A convenience function to calculate the Isolation Index for
+\item \code{isolationinv_ind_bin}: A convenience function to calculate the Isolation Index for
 the second group in an environment.
 }}
 

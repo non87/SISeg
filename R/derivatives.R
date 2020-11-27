@@ -180,7 +180,7 @@ d_isolation_ind_ig <- function(env){
 #' @describeIn seg_deriv Derivative for the Isolation Index (independent-groups
 #' framework) applied to the second row of the environment matrix.
 #' @export
-d_isolationInv_ind_ig <- function(env){
+d_isolationinv_ind_ig <- function(env){
   env <-matrix(c(env[2,], env[1,]), nrow = 2, byrow = TRUE)
   return(d_isolation_ind_ig(env))
 }
@@ -310,7 +310,7 @@ d_isolation_ind_fm <- function(env){
 #' @describeIn seg_deriv Derivative for the Isolation Index (full multinomial
 #' framework) applied to the second row of the environment matrix.
 #' @export
-d_isolationInv_ind_fm <- function(env){
+d_isolationinv_ind_fm <- function(env){
   env <- matrix(c(env[2,], env[1,]), nrow = 2, byrow = TRUE)
   return(d_isolation_ind_fm(env))
 }
@@ -469,7 +469,7 @@ d_isolation_ind_iu <- function(env, in_form = FALSE){
 #' @describeIn seg_deriv Derivative for the Isolation Index (independent-units
 #' framework) applied to the second row of the environment matrix.
 #' @export
-d_isolationInv_ind_iu <- function(env, in_form = FALSE){
+d_isolationinv_ind_iu <- function(env, in_form = FALSE){
   if (!(in_form)){
     mi <- mutual_info_ind(env)
     env[2,] <- colSums(env)

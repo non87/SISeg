@@ -167,7 +167,7 @@ isolation_ind <- function(env){
 #' @describeIn seg_ind A convenience function to calculate the Isolation Index for
 #'    the second group in an environment.
 #' @export
-isolationInv_ind <- function(env){
+isolationinv_ind <- function(env){
   env <- env[c(2,1),]
   return(isolation_ind(env))
 }
@@ -354,7 +354,7 @@ isolation_ind_bin <- function(env, in_form = FALSE){
 #' @describeIn seg_ind_bin A convenience function to calculate the Isolation Index for
 #'    the second group in an environment.
 #' @export
-isolationInv_ind_bin <- function(env, in_form = FALSE){
+isolationinv_ind_bin <- function(env, in_form = FALSE){
   if (!in_form){
     env[2,] <- colSums(env)
     env[1,] <- env[1,]/env[2,]

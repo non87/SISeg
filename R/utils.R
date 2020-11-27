@@ -111,7 +111,7 @@ index <- function(){
   # This is the fundamental that is used to create names, retrieve all
   # functions, create lists
   supported_indices <- c("D","Gini", "Mutual_info", "Atkinson",
-                                 "Theil")
+                          "Theil", "V", "isolation", "isolationinv")
   assign('index', c(supported_indices,
                     .index_env$other_indices), pos = .index_env)
 }
