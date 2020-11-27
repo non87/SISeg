@@ -174,7 +174,7 @@ index_ci <- function(env, seg_index = c("D", "Gini", "Mutual_info", "Atkinson",
   if (framework == "iu"){
     #ws expresses how many individual each column has
     ws <- colSums(env)
-    ws_var <- unlist(lapply(seq(length(ws)), function(x) rep(ws[x], 2)))
+    ws_var <- rep(ws, each = 2)
   } else {
     ws_var <- N
   }
@@ -532,8 +532,8 @@ index_difference_ci <- function(env1, env2, seg_index = c("D", "Gini",
     #ws expresses how many individual each column has
     ws1 <- colSums(env1)
     ws2 <- colSums(env2)
-    ws_var1 <- unlist(lapply(seq(length(ws1)), function(x) rep(ws1[x], 2)))
-    ws_var2 <- unlist(lapply(seq(length(ws2)), function(x) rep(ws2[x], 2)))
+    ws_var1 <-  rep(ws1, each = 2)
+    ws_var2 <-  rep(ws2, each = 2)
   } else {
     ws_var1 <- N1
     ws_var2 <- N2

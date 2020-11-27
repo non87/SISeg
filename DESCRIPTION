@@ -23,5 +23,7 @@ Imports:
     gtools (>= 3.8.2),
     Matrix,
     methods,
-    HDInterval
+    HDInterval,
+Suggests:
+    graphics
 Depends: R (>= 3.6.0)
