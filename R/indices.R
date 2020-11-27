@@ -77,8 +77,8 @@
 #' atkinson_ind(env)
 #' v_ind(env)
 #' isolation_ind(env)
-#' isolationInv_ind(env)
-#' isolation_ind(env[c(2,1),]) == isolationInv_ind(env)
+#' isolationinv_ind(env)
+#' isolation_ind(env[c(2,1),]) == isolationinv_ind(env)
 NULL
 
 #' @describeIn seg_ind D Index
