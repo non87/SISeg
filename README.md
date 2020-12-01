@@ -105,4 +105,8 @@ env2 <- matrix(env1, nrow = 2, byrow = TRUE)
 env_diff_cis <- index_difference_ci(env1, env2, seg_index = c("Theil"))
 #> [1] "theil"
 #> [1] "theil"
+## This is the bootstrap studentized confidence interval for the data for D
+print(env_diff_cis$TBoot$theil)
+#>       Lower       Upper    Estimate 
+#> -0.06175300  0.01395418 -0.02553441
 ```

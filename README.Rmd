@@ -102,4 +102,6 @@ env2 <- matrix(env1, nrow = 2, byrow = TRUE)
 ## Let's check the difference in Theil index between environment 1 and 2
 ## Let's calculate the confidence intervals of the difference from samples
 env_diff_cis <- index_difference_ci(env1, env2, seg_index = c("Theil"))
+## This is the bootstrap studentized confidence interval for the data for D
+print(env_diff_cis$TBoot$theil)
 ```
