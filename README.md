@@ -73,6 +73,7 @@ statistical inference:
 
 ``` r
 library(SISeg)
+set.seed(1234)
 ## Create artificial data drawing from a multinomial. 
 ## This procedure corresponds to the full multinomial framework
 env1 <- rmultinom(1, 1000, c(0.1, 0.1, 0.2, 0.2, 0.05, 0.35))
@@ -80,7 +81,7 @@ env1 <- rmultinom(1, 1000, c(0.1, 0.1, 0.2, 0.2, 0.05, 0.35))
 env1 <- matrix(env1, nrow = 2, byrow = TRUE)
 ## We can simply calculate an index on the data. D index:
 print(d_ind(env1))
-#> [1] 0.1511112
+#> [1] 0.2033333
 
 ## But it is just as easy to create a full confidence interval
 ## Estimate the confidence interval for D and V on this data
@@ -92,7 +93,7 @@ env1_cis <- index_ci(env1, seg_index = c("D", "V"))
 ## This is the bootstrap studentized confidence interval for the data for D
 print(env1_cis$TBoot$d)
 #>     Lower     Upper  Estimate 
-#> 0.1064459 0.1984974 0.1511112
+#> 0.1562018 0.2530208 0.2033333
 
 ## SISeg can be used to check the difference between two environments
 ## We create another environment

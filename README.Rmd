@@ -78,6 +78,7 @@ from there and show how to conduct statistical inference:
 
 ```{r example}
 library(SISeg)
+set.seed(1234)
 ## Create artificial data drawing from a multinomial. 
 ## This procedure corresponds to the full multinomial framework
 env1 <- rmultinom(1, 1000, c(0.1, 0.1, 0.2, 0.2, 0.05, 0.35))
