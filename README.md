@@ -68,8 +68,8 @@ work in slightly-different ways under the different frameworks.
 
 Based on the discussion above, SISeg works on the assumption that
 relevant data for segregation in an environment is organized in a
-matrix. Ths example starts from there and show how to conduct
-statistical inference:
+matrix. This example shows how to calculate segregation indices and
+conduct statistical inference starting from such matrix:
 
 ``` r
 library(SISeg)
