@@ -90,10 +90,10 @@ env1_cis <- index_ci(env1, seg_index = c("D", "V"))
 #> [1] "v"
 #> [1] "d"
 #> [1] "v"
-## This is the bootstrap studentized confidence interval for the data for D
-print(env1_cis$TBoot$d)
+## This is the bootstrap bias-corrected confidence interval for the data for D
+print(env1_cis$CBoot$d)
 #>     Lower     Upper  Estimate 
-#> 0.1562018 0.2530208 0.2033333
+#> 0.1535724 0.2500000 0.2032526
 
 ## SISeg can be used to check the difference between two environments
 ## We create another environment

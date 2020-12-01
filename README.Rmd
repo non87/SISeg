@@ -90,8 +90,8 @@ print(d_ind(env1))
 ## But it is just as easy to create a full confidence interval
 ## Estimate the confidence interval for D and V on this data
 env1_cis <- index_ci(env1, seg_index = c("D", "V"))
-## This is the bootstrap studentized confidence interval for the data for D
-print(env1_cis$TBoot$d)
+## This is the bootstrap bias-corrected confidence interval for the data for D
+print(env1_cis$CBoot$d)
 
 ## SISeg can be used to check the difference between two environments
 ## We create another environment
